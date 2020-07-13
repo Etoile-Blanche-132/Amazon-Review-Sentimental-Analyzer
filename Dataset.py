@@ -1,26 +1,53 @@
 import json
-import pandas as pd
-from NLP import Pretreatment
+from sklearn.model_selection import train_test_split
+from keras.preprocessing.sequence import pad_sequences
+from keras.datasets import imdb
 
-POSITIVE, NEGATIVE = 1, 0
+MAX_LENGTH = 30
 
 class DATA():
     def __init__(self):
-        review, overall = [], []
+        with open('data.json', 'r') as f:
+            data = json.load(f)
 
-        with open('Books.json') as file:
-            rawData = json.load(file)
+        X = data['reviewText']
+        y = data['overall']
 
-        for i in range(len(rawData)):
-            if rawData[i]['overall'] = 5:
-                review.append(rawData[i]['reviewText'])
-                overall.append(POSITIVE)
+        X = self.VectorReshaper(X)
 
-            elif rawData[i]['overall'] = 1:
-                review.append(rawData[i]['reviewText'])
-                overall.append(NEGATIVE)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, stratify = y)
 
-        review = Pretreatment(review)
-    
-    def Thresholding(data):
-        threshold = 10
+        self.X_train, self.X_test = X_train, X_test
+        self.y_train, self.y_test = y_train, y_test
+
+        self.setSize = len(X_train)
+        self.inputLength = len(X_train[0])
+
+    def VectorReshaper(self, X):
+        X = pad_sequences(X, maxlen = MAX_LENGTH)
+
+        return X
+
+'''
+class DATA():
+    def __init__(self):
+        (X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=5000)
+
+        X_train = self.VectorReshaper(X_train)
+
+        self.X_train = X_train
+        self.X_test = X_test
+        self.y_train = y_train
+        self.y_test = y_test
+
+        self.setSize = len(X_train)
+        self.inputLength = len(X_train[0])
+        
+    def VectorReshaper(self, X):
+        X = pad_sequences(X, maxlen = MAX_LENGTH)
+
+        return X
+'''
+
+if __name__ == "__main__":
+    data = DATA()

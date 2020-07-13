@@ -28,26 +28,5 @@ class DATA():
 
         return X
 
-'''
-class DATA():
-    def __init__(self):
-        (X_train, y_train), (X_test, y_test) = imdb.load_data(num_words=5000)
-
-        X_train = self.VectorReshaper(X_train)
-
-        self.X_train = X_train
-        self.X_test = X_test
-        self.y_train = y_train
-        self.y_test = y_test
-
-        self.setSize = len(X_train)
-        self.inputLength = len(X_train[0])
-        
-    def VectorReshaper(self, X):
-        X = pad_sequences(X, maxlen = MAX_LENGTH)
-
-        return X
-'''
-
 if __name__ == "__main__":
     data = DATA()
